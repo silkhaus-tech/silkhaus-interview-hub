@@ -1,3 +1,4 @@
+
 import { API } from './api'
 import './App.css'
 import {
@@ -29,10 +30,26 @@ const formFields: FormField[] = [
 ]
 
 function App() {
-
-  const onSubmit = (data: FormData) => {
+  
+  const onSubmit = async (data: FormData) => {
     // use API.submitForm functions here
-    console.log(data)
+    console.log("submit data", data)
+   
+    try{
+      let obj = {
+        firstName:data.firstName,
+        lastName:data.lastName,
+        gender:data.gender
+      }
+      console.log("check api data", obj)
+      await API.submitForm(obj).then((response)=>{
+        console.log("response", response)
+      })
+      // console.log("api response", result)
+    }
+    catch(error:any){
+        console.log("catch error", error)
+    }
   }
 
   return (
