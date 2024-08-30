@@ -8,20 +8,21 @@ export type SelectOption = {
 
 export type SelectProps = {
   options?: SelectOption[],
-  onChange?: (value: string | null) => void,
+  onChange?: (option: SelectOption | null) => void,
   value?: string,
-
+  disabled?: boolean
 }
 
 export const Select: FC<SelectProps> = ({
   options = [],
   onChange,
-  value
+  value,
+  disabled = false
 }) => {
   return (
     <>
       {/* @ts-expect-error TODO: Fix this issue with options type. Not sure why this is happening*/}
-      <ReactSelect options={options} onChange={onChange} value={value}></ReactSelect>
+      <ReactSelect isDisabled={disabled} options={options} onChange={onChange} value={value}></ReactSelect>
     </>
   )
 }
