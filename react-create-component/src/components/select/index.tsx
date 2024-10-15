@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import ReactSelect from 'react-select'
 
 export type SelectOption = {
@@ -8,20 +8,30 @@ export type SelectOption = {
 
 export type SelectProps = {
   options?: SelectOption[],
-  onChange?: (value: string | null) => void,
+  onChange: (value: string | null, name: string | null) => void,
   value?: string,
+  label: ReactNode,
+  isLoading?: boolean
 
 }
 
 export const Select: FC<SelectProps> = ({
   options = [],
   onChange,
-  value
+  value,
+  label,
+  isLoading
 }) => {
   return (
-    <>
-      {/* @ts-expect-error TODO: Fix this issue with options type. Not sure why this is happening*/}
-      <ReactSelect options={options} onChange={onChange} value={value}></ReactSelect>
-    </>
+    <div>
+      <label htmlFor='gender'>{`${label}: `}</label>
+      <select name={value} onChange={(e) => onChange(e.target.value, e.target.name)} disabled={isLoading}>
+        {options.map((option, index) => {
+          return (
+            <option value={option.value} key={index}>{option.label}</option>
+          )
+        })}
+      </select>
+    </div>
   )
 }

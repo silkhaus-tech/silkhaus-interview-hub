@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { API } from './api'
 import './App.css'
 import {
@@ -30,15 +31,26 @@ const formFields: FormField[] = [
 
 function App() {
 
-  const onSubmit = (data: FormData) => {
+  const [loading, setloading] = useState(false);
+
+  const onSubmit = async (data: FormData) => {
     // use API.submitForm functions here
-    console.log(data)
+    console.log('From onSubmit from App: ', data)
+    setloading(true);
+    try {
+      let response = await API.submitForm(data);
+      console.log('Data successfully submitted. ', response);
+    } catch (error) {
+      console.error('Error occurred in submitting data: ', error);
+    } finally {
+      setloading(false);
+    }
   }
 
   return (
     <>
       <div>
-        <DynamicForm fields={formFields} onSubmit={onSubmit}></DynamicForm>
+        <DynamicForm fields={formFields} onSubmit={onSubmit} isLoading={loading}></DynamicForm>
       </div>
     </>
   )
