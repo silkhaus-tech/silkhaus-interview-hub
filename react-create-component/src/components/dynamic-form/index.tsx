@@ -1,4 +1,7 @@
 import { ReactNode, FC } from "react";
+import { Select } from "../select/index"
+import Input from "../input";
+import {SelectOption} from "../select/index"
 
 export type FormField = {
   name: string
@@ -15,15 +18,40 @@ export type FormData = {
 }
 
 export type DynamicFormProps = {
- fields: FormField[],
- onSubmit: (formData: FormData) => void,
- isLoading?: boolean
+  fields: FormField[],
+  onSubmit: (formData: FormData) => void,
+  isLoading?: boolean
 }
 
-export const DynamicForm: FC<DynamicFormProps> = () => {
+export const DynamicForm: FC<DynamicFormProps> = ({ fields, onSubmit }) => {
+
+  const formValues = [ {
+
+  } ]
+
+  console.log(fields);
+
+  const selectOptionData : SelectOption[] = [];
+  fields.map((field) => {
+    selectOptionData.push({
+      "label": field.label,
+      "value": ""
+    });
+  });
+
+  const getSelectedValue = () => {
+
+  }
+
   return (
-    <div>
-      <h3>{'< insert form component here />'}</h3>
-    </div>
+    <form>
+      <h2>Basic Form</h2>
+      {
+      fields.map((field) => 
+        (field.type === "text") ? <Input options={fields} /> : <Select options={selectOptionData} onChange={(val) => getSelectedValue(val)} value={""} />
+      }
+      <button type="reset">Clear</button>
+      <button type="button" onClick={() => onSubmit} >Submit</button>
+    </form>
   )
 };

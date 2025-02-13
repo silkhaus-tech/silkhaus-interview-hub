@@ -1,4 +1,5 @@
-import { API } from './api'
+import { API } from './api';
+import {useState} from "react";
 import './App.css'
 import {
   DynamicForm,
@@ -30,15 +31,22 @@ const formFields: FormField[] = [
 
 function App() {
 
-  const onSubmit = (data: FormData) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
     // use API.submitForm functions here
+    const formService = await API.submitForm(data);
     console.log(data)
+
+    setIsLoading(false);
   }
+  
 
   return (
     <>
       <div>
-        <DynamicForm fields={formFields} onSubmit={onSubmit}></DynamicForm>
+        <DynamicForm fields={formFields} onSubmit={onSubmit} isLoading={isLoading}></DynamicForm>
       </div>
     </>
   )
